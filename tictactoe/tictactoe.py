@@ -36,10 +36,10 @@ def player(board):
         numO += row.count(O)
 
     # Next player is the one with the fewest moves currently
-    if numX < numO:
-        return X
-    else:
+    if numX > numO:
         return O
+    else:
+        return X
 
 
 def actions(board):
@@ -114,12 +114,6 @@ def terminal(board):
     if not any(move==EMPTY for move in all_moves):
         return True
 
-    # num_filled = 0
-    # for row in board:
-    #     num_filled += row.count(X) + row.count(O)
-    # if num_filled == 9:
-    #     return True
-
     # Otherwise game in progress
     return False
 
@@ -128,11 +122,63 @@ def utility(board):
     """
     Returns 1 if X has won the game, -1 if O has won, 0 otherwise.
     """
-    raise NotImplementedError
+    
+    if winner(board) == X:
+        return 1
+    if winner(board) == O:
+        return -1
+    return 0
 
 
 def minimax(board):
     """
     Returns the optimal action for the current player on the board.
     """
-    raise NotImplementedError
+    
+    if terminal(board):
+        return None
+
+    if player(board) == X:
+        best_v = -math.inf
+        for move in actions(board):
+            max_v = min_value(result(board, move))
+            if max_v > best_v:
+                best_v = max_v
+                best_move = move
+    
+    elif player(board) == O:
+        best_v = math.inf
+        for move in actions(board):
+            min_v = max_value(result(board, move)) 
+            if min_v < best_v:
+                best_v = min_v
+                best_move = move
+    return best_move 
+
+
+def min_value(board):
+    """
+    Returns the minimum utility of the current board.
+    """
+
+    if terminal(board):
+        return utility(board)
+    
+    v = math.inf
+    for move in actions(board):
+        v = min(v, max_value(result(board, move)))
+    return v
+
+
+def max_value(board):
+    """
+    Returns the maximum utility of the current board.
+    """
+
+    if terminal(board):
+        return utility(board)
+
+    v = -math.inf
+    for move in actions(board):
+        v = max(v, min_value(result(board, move)))
+    return v
