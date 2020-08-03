@@ -1,6 +1,7 @@
 import pygame
 import sys
 import time
+import termcolor
 
 from minesweeper import Minesweeper, MinesweeperAI
 
@@ -185,11 +186,11 @@ while True:
                 move = ai.make_random_move()
                 if move is None:
                     flags = ai.mines.copy()
-                    print("No moves left to make.")
+                    termcolor.cprint("\nNo moves left to make.", "red")
                 else:
-                    print("No known safe moves, AI making random move.")
+                    termcolor.cprint("\nNo known safe moves, AI making random move.", "red")
             else:
-                print("AI making safe move.")
+                termcolor.cprint("\nAI making safe move.", "green")
             time.sleep(0.2)
 
         # Reset game state
