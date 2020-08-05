@@ -128,6 +128,46 @@ def powerset(s):
     ]
 
 
+def probability_inheritence(num_genes_of_parent, is_inherited):
+    """
+    Given the number of copies of the gene the parent has (0, 1 or 2), 
+    and the inheritence outcome (True if child inherits gene from this parent, else False),
+    computes the probability of the inheritance outcome for this parent.
+    """
+    # If parent has no copy of gene, can only pass it on via mutation
+    if num_genes_of_parent == 0:
+        if is_inherited:
+            return PROBS["mutation"]
+        else:
+            return 1 - PROBS["mutation"]
+
+    # If parent has 1 copy of gene, 50/50 chance of whether they pass it on
+    elif num_genes_of_parent == 1:
+        return 0.5
+    
+    # If parent has 2 copies of gene, only way they won't pass it on is via mutation
+    elif num_genes_of_parent == 2:
+        if is_inherited:
+            return 1 - PROBS["mutation"]
+        else:
+            return PROBS["mutation"]
+    
+    else:
+        raise Exception("invalid input")
+
+
+def num_genes_of_person(person, one_gene, two_genes):
+    """
+    Helper function for joint_probability
+    """
+    if person in one_gene:
+        return 1
+    elif person in two_genes:
+        return 2
+    else:
+        return 0
+    
+
 def joint_probability(people, one_gene, two_genes, have_trait):
     """
     Compute and return a joint probability.
@@ -139,7 +179,43 @@ def joint_probability(people, one_gene, two_genes, have_trait):
         * everyone in set `have_trait` has the trait, and
         * everyone not in set` have_trait` does not have the trait.
     """
-    raise NotImplementedError
+    # Initialise joint probability
+    probability = 1
+
+    for person in people:
+
+        # Want to calculate probability that person has num_genes
+        num_genes = num_genes_of_person(person, one_gene, two_genes)
+
+        # Want to calculate probability that person has_trait
+        has_trait = person in have_trait
+
+        # No parental information - use unconditional probability
+        if people[person]['mother'] is None and people[person]['father'] is None:
+            probability *= PROBS["gene"][num_genes] * PROBS["trait"][num_genes][has_trait]
+
+        # Parental information provided - use conditional probability
+        else:
+            num_genes_mother = num_genes_of_person(people[person]['mother'], one_gene, two_genes)
+            num_genes_father = num_genes_of_person(people[person]['father'], one_gene, two_genes)
+
+            # Only 1 way to inherit 0 copies: inherit 0 copies from each parent
+            if num_genes == 0:
+                probability *= probability_inheritence(num_genes_mother, False) * probability_inheritence(num_genes_father, False)
+            
+            # Two ways to inherit 1 copy: 1 from mother and 0 from father, or vice versa
+            elif num_genes == 1:
+                probability *= probability_inheritence(num_genes_mother, True) * probability_inheritence(num_genes_father, False) \
+                                + probability_inheritence(num_genes_mother, False) * probability_inheritence(num_genes_father, True)
+            
+            # Only 1 way to inherit 2 copies: inherit 1 copy from each parent
+            elif num_genes == 2:
+                probability *= probability_inheritence(num_genes_mother, True) * probability_inheritence(num_genes_father, True)
+
+            # Multiply by probability of having the trait
+            probability *= PROBS["trait"][num_genes][has_trait]
+
+    return probability
 
 
 def update(probabilities, one_gene, two_genes, have_trait, p):
