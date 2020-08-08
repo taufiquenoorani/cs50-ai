@@ -295,7 +295,6 @@ class CrosswordCreator():
                 result = self.backtrack(assignment)
                 if result is not None:
                     return result
-            # del assignment[var]
             assignment.pop(var, None)
         return None
 
