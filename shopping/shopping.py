@@ -1,8 +1,10 @@
 import csv
 import sys
+import calendar
 
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import confusion_matrix
 
 TEST_SIZE = 0.4
 
@@ -59,7 +61,40 @@ def load_data(filename):
     labels should be the corresponding list of labels, where each label
     is 1 if Revenue is true, and 0 otherwise.
     """
-    raise NotImplementedError
+    # Dictionary to map month names to indices
+    months = {month: index-1 for index, month in enumerate(calendar.month_abbr) if index}
+    months['June'] = months.pop('Jun')
+
+    # Initialise empty lists for evidence and labels
+    evidence = []
+    labels = []
+
+    # Read file row by row to fill in evidence and labels lists
+    with open(filename, 'r') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            evidence.append([
+                int(row['Administrative']),
+                float(row['Administrative_Duration']),
+                int(row['Informational']),
+                float(row['Informational_Duration']),
+                int(row['ProductRelated']),
+                float(row['ProductRelated_Duration']),
+                float(row['BounceRates']),
+                float(row['ExitRates']),
+                float(row['PageValues']),
+                float(row['SpecialDay']),
+                months[row['Month']],
+                int(row['OperatingSystems']),
+                int(row['Browser']),
+                int(row['Region']),
+                int(row['TrafficType']),
+                1 if row['VisitorType'] == 'Returning_Visitor' else 0,
+                1 if row['Weekend'] == 'TRUE' else 0
+            ])
+            labels.append(1 if row['Revenue'] == 'TRUE' else 0)
+
+    return (evidence, labels)
 
 
 def train_model(evidence, labels):
@@ -67,13 +102,13 @@ def train_model(evidence, labels):
     Given a list of evidence lists and a list of labels, return a
     fitted k-nearest neighbor model (k=1) trained on the data.
     """
-    raise NotImplementedError
+    return KNeighborsClassifier(n_neighbors=1).fit(evidence, labels)
 
 
 def evaluate(labels, predictions):
     """
     Given a list of actual labels and a list of predicted labels,
-    return a tuple (sensitivity, specificty).
+    return a tuple (sensitivity, specificity).
 
     Assume each label is either a 1 (positive) or 0 (negative).
 
@@ -85,8 +120,12 @@ def evaluate(labels, predictions):
     representing the "true negative rate": the proportion of
     actual negative labels that were accurately identified.
     """
-    raise NotImplementedError
+    tn, fp, fn, tp = confusion_matrix(labels, predictions).ravel()
+    sensitivity = tp / (tp + fn)
+    specificity = tn / (tn + fp)
 
+    return (sensitivity, specificity)
+    
 
 if __name__ == "__main__":
     main()
