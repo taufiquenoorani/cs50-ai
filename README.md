@@ -14,3 +14,4 @@ Projects for Harvard's [CS50 Introduction to Artificial Intelligence with Python
 | Week 2 | Uncertainty | [PageRank](pagerank) | Rank web pages by importance | `$ python pagerank.py corpus0` |
 | Week 2 | Uncertainty | [Heredity](heredity) | Assess likelihood a person will have a particular genetic trait | `$ python heredity.py data/family0.csv` |
 | Week 3 | Optimisation | [Crossword](crossword) | Generate crossword puzzles | `$ python generate.py data/structure1.txt data/words1.txt output.png` |
+| Week 4 | Learning | [Shopping](shopping) | Predict whether online shopping customers will complete a purchase| `$ python shopping.py shopping.csv` |
