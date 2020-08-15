@@ -17,3 +17,5 @@ Projects for Harvard's [CS50 Introduction to Artificial Intelligence with Python
 | 4    | Learning         | [Shopping](shopping)       | Predict whether online shopping customers will complete a purchase | `$ python shopping.py shopping.csv`                                   |
 | 4    | Learning         | [Nim](nim)                 | AI that teaches itself to play Nim through reinforecement learning | `$ python play.py`                                                    |
 | 5    | Neural Networks  | [Traffic](traffic)         | Neural net to identify which traffic sign appears in a photograph  | `$ python traffic.py gtsrb`                                           |
+| 6    | Language         | [Parser](parser)           | Parse sentences and extract noun phrases                           | `$ python parser.py`                                                  |
+| 6    | Language         | [Questions](questions)     | AI to answer questions given corpus of text                        | `$ python questions.py corpus`                                        |
