@@ -56,7 +56,7 @@ def load_files(directory):
     for root, _, files in os.walk(directory):
         for file in files:
             f = open(os.path.join(root, file), "r")
-            file_contents[file]  = f.read()
+            file_contents[file] = f.read()
 
     return file_contents
 
