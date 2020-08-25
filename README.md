@@ -5,10 +5,10 @@ Projects for Harvard's [CS50 Introduction to Artificial Intelligence with Python
 
 ## Projects
 
-| Week | Topic            | Name                       | Description                                                        | How to Run                    
-| :--- | :--------------- | :------------------------- | :----------------------------------------------------------------- | :-------------------------------------------------------------------- |
-| 0    | Search           | [Degrees](degrees)         | Determine how many degrees of separation apart two actors are      | `$ python degrees.py large`                                           |
-| 0    | Search           | [Tic-Tac-Toe](tictactoe)   | Play tic-tac-toe optimally using Minimax                           | `$ python runner.py`                                                  |
+| Week | Topic            | Name                       | Description                                                        | How to Run                                                            | Video                                   |
+| :--- | :--------------- | :------------------------- | :----------------------------------------------------------------- | :-------------------------------------------------------------------- | :-------------------------------------- |
+| 0    | Search           | [Degrees](degrees)         | Determine how many degrees of separation apart two actors are      | `$ python degrees.py large`                                           | [Link](https://youtu.be/SOzAWpJ7iCo)    |
+| 0    | Search           | [Tic-Tac-Toe](tictactoe)   | Play tic-tac-toe optimally using Minimax                           | `$ python runner.py`                                                  | [Link](https://youtu.be/pfMCl4vkyk8)    |
 | 1    | Knowledge        | [Knights](knights)         | Solve logic puzzles                                                | `$ python puzzle.py`                                                  |
 | 1    | Knowledge        | [Minesweeper](minesweeper) | Play Minesweeper                                                   | `$ python runner.py`                                                  |
 | 2    | Uncertainty      | [PageRank](pagerank)       | Rank web pages by importance                                       | `$ python pagerank.py corpus0`                                        |
